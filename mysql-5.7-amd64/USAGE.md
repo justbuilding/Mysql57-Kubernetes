@@ -43,9 +43,79 @@
 ### 环境变量
 
 - `MYSQL_ROOT_PASSWORD`：root 用户密码（默认：123456）
-- `MYSQL_USER`：创建的用户名（可选）
-- `MYSQL_PASSWORD`：创建的用户密码（可选）
-- `MYSQL_DATABASE`：创建的数据库名（可选）
+
+## MySQL 密码管理
+
+### 修改 root 密码
+
+部署后，建议修改默认密码以提高安全性：
+
+1. **进入 Pod**：
+   ```bash
+   kubectl exec -it $(kubectl get pods -l app=mysql -o jsonpath='{.items[0].metadata.name}') -- /bin/bash
+   ```
+
+2. **登录 MySQL**：
+   ```bash
+   mysql -u root -p123456
+   ```
+
+3. **修改密码**（示例：改为 MYSQL_ROOT_PASSWORD123456）：
+   ```sql
+   ALTER USER 'root'@'%' IDENTIFIED BY 'MYSQL_ROOT_PASSWORD123456';
+   ALTER USER 'root'@'localhost' IDENTIFIED BY 'MYSQL_ROOT_PASSWORD123456';
+   GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
+   GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost';
+   FLUSH PRIVILEGES;
+   exit;
+   ```
+
+4. **验证新密码**：
+   ```bash
+   mysql -u root -pMYSQL_ROOT_PASSWORD123456
+   ```
+
+## 数据持久化
+
+### 验证数据持久化
+
+MySQL 数据存储在持久卷中，重启 Pod 后数据仍然存在：
+
+1. **创建测试数据库**：
+   ```sql
+   CREATE DATABASE aaa;
+   exit;
+   ```
+
+2. **重启 Pod**：
+   ```bash
+   kubectl rollout restart deployment mysql-deployment
+   ```
+
+3. **验证数据库存在**：
+   ```sql
+   SHOW DATABASES;
+   ```
+
+   结果应包含 `aaa` 数据库：
+   ```
+   +--------------------+
+   | Database           |
+   +--------------------+
+   | information_schema |
+   | aaa                |
+   | mysql              |
+   | performance_schema |
+   | sys                |
+   +--------------------+
+   ```
+
+### 存储配置
+
+- **持久卷**：使用 `hostPath` 类型，路径为 `/data/mysql`
+- **存储容量**：10Gi
+- **访问模式**：ReadWriteOnce
+- **存储类**：manual
 
 ## 部署前准备
 

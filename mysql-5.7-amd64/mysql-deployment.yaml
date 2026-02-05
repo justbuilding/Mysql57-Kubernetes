@@ -22,25 +22,13 @@ spec:
         image: berkansahin/mysql57arm64
         ports:
         - containerPort: 3306
-        - containerPort: 33060
         env:
         - name: MYSQL_ROOT_PASSWORD
           value: "123456"
-        - name: MYSQL_ALLOW_EMPTY_PASSWORD
-          value: "yes"
-        - name: MYSQL_MAJOR
-          value: "5.7"
-        - name: MYSQL_VERSION
-          value: "5.7.26"
-        command:
-        - mysqld
-        - --skip-grant-tables
-        - --user=mysql
-        - --lower-case-table-names=1
-        - --character-set-server=utf8mb4
-        - --collation-server=utf8mb4_general_ci
-        - --skip-host-cache
-        - --skip-name-resolve
+        args:
+        - "--lower-case-table-names=1"
+        - "--character-set-server=utf8mb4"
+        - "--collation-server=utf8mb4_general_ci"
         volumeMounts:
         - name: mysql-storage
           mountPath: /var/lib/mysql
