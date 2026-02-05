@@ -16,10 +16,10 @@ spec:
     spec:
       containers:
       - name: mysql
-        # Community-built MySQL 5.7 ARM64 image
+        # MySQL 5.7 ARM64 image from Alibaba Cloud Registry
         # This image provides MySQL 5.7 support for ARM64 architecture
-        # Source: https://hub.docker.com/r/berkansahin/mysql57arm64
-        image: berkansahin/mysql57arm64
+        # Source: registry.cn-hangzhou.aliyuncs.com/public_hjj_images/mysql:57arm64
+        image: registry.cn-hangzhou.aliyuncs.com/public_hjj_images/mysql:57arm64
         ports:
         - containerPort: 3306
         env:

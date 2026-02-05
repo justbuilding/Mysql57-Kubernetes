@@ -1,44 +1,31 @@
-# MySQL 5.7 Kubernetes 部署使用文档 (amd64 架构)
+# MySQL 5.7 Kubernetes 部署使用文档 (支持 amd64 和 ARM64 架构)
 
-本文档描述了如何使用提供的 Kubernetes 配置文件部署和管理 MySQL 5.7 数据库，适用于 amd64 (x86_64) 架构的服务器。
+本文档描述了如何使用提供的 Kubernetes 配置文件部署和管理 MySQL 5.7 数据库，适用于 amd64 (x86_64) 和 ARM64 (aarch64) 架构的服务器。
 
 ## 架构兼容性
 
-**重要**：此配置仅适用于 amd64 (x86_64) 架构的服务器。
-- MySQL 5.7 官方镜像不支持 ARM64 架构
-- 在 ARM64 服务器上部署会失败
-- 如需在 ARM64 服务器上部署，请使用 `mysql-9.6.0-arm` 目录中的配置
+**重要更新**：此配置现在支持 ARM64 架构！
+- 使用阿里云容器镜像服务提供的 MySQL 5.7 ARM64 镜像
+- 同时兼容 amd64 (x86_64) 架构
+- 提供了 MySQL 5.7 在 ARM64 平台上的支持
 
-## 自定义 Docker 镜像构建
+## MySQL 5.7 ARM64 镜像
 
-本目录包含自定义 Dockerfile，基于 ubuntu:26.04 构建 MySQL 5.7：
+本配置使用阿里云容器镜像服务提供的 MySQL 5.7 ARM64 镜像：
 
-### 构建步骤
+### 镜像信息
 
-1. **进入目录**：
-   ```bash
-   cd mysql-5.7-amd64
-   ```
-
-2. **构建镜像**：
-   ```bash
-   docker build -t mysql:5.7-custom .
-   ```
-
-3. **验证镜像**：
-   ```bash
-   docker images | grep mysql:5.7-custom
-   ```
-
-### Dockerfile 特性
-
-- **基础镜像**：ubuntu:26.04
-- **架构**：amd64
+- **镜像名称**：`registry.cn-hangzhou.aliyuncs.com/public_hjj_images/mysql:57arm64`
 - **MySQL 版本**：5.7
+- **支持架构**：ARM64 (aarch64) 和 amd64 (x86_64)
+- **来源**：[阿里云容器镜像服务](https://cr.console.aliyun.com/)
+
+### 镜像特性
+
 - **默认密码**：123456
 - **字符集**：utf8mb4
+- **表名大小写**：不区分大小写
 - **时区**：Asia/Shanghai
-- **镜像优化**：使用阿里云镜像源加速构建
 
 ### 环境变量
 
