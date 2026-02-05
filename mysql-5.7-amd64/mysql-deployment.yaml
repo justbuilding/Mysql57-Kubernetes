@@ -16,10 +16,10 @@ spec:
     spec:
       containers:
       - name: mysql
-        # MySQL 5.7 for amd64 (x86_64) architecture only
-        # This image does NOT support ARM64 architecture
+        # Custom-built MySQL 5.7 image based on ubuntu:26.04
+        # Build this image first using: docker build -t mysql:5.7-custom .
         # For ARM64 support, use mysql-9.6.0-arm directory
-        image: mysql:5.7
+        image: mysql:5.7-custom
         ports:
         - containerPort: 3306
         env:

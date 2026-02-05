@@ -9,6 +9,44 @@
 - 在 ARM64 服务器上部署会失败
 - 如需在 ARM64 服务器上部署，请使用 `mysql-9.6.0-arm` 目录中的配置
 
+## 自定义 Docker 镜像构建
+
+本目录包含自定义 Dockerfile，基于 ubuntu:26.04 构建 MySQL 5.7：
+
+### 构建步骤
+
+1. **进入目录**：
+   ```bash
+   cd mysql-5.7-amd64
+   ```
+
+2. **构建镜像**：
+   ```bash
+   docker build -t mysql:5.7-custom .
+   ```
+
+3. **验证镜像**：
+   ```bash
+   docker images | grep mysql:5.7-custom
+   ```
+
+### Dockerfile 特性
+
+- **基础镜像**：ubuntu:26.04
+- **架构**：amd64
+- **MySQL 版本**：5.7
+- **默认密码**：123456
+- **字符集**：utf8mb4
+- **时区**：Asia/Shanghai
+- **镜像优化**：使用阿里云镜像源加速构建
+
+### 环境变量
+
+- `MYSQL_ROOT_PASSWORD`：root 用户密码（默认：123456）
+- `MYSQL_USER`：创建的用户名（可选）
+- `MYSQL_PASSWORD`：创建的用户密码（可选）
+- `MYSQL_DATABASE`：创建的数据库名（可选）
+
 ## 部署前准备
 
 1. **确保 Kubernetes 集群可用**
