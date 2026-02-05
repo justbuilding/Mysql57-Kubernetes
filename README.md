@@ -84,7 +84,9 @@ kubectl apply -f mysql-service.yaml
 - **NodePort**：30306
 - **服务类型**：NodePort
 
-## 密码配置,请自行参照文档修改密码
+## 密码配置
+
+请参照以下配置信息，并根据需要修改密码：
 
 ### MySQL 5.7 (AMD64)
 - **密码类型**：root 密码
